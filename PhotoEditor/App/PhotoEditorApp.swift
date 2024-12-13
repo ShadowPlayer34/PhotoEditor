@@ -6,18 +6,46 @@
 //
 
 import SwiftUI
+import Combine
+import GoogleSignIn
+import FirebaseAuth
 
 @main
-struct YourApp: App {
+struct PhotoEditorApp: App {
 
-  // Register app delegate for Firebase setup
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var userLoggedIn: Bool = false
+    @State private var cancellables = Set<AnyCancellable>()
+    @ObservedObject private var mainViewRouter = MainViewRouter()
 
-  var body: some Scene {
-    WindowGroup {
-      NavigationView {
-          MainLoginScreen()
-      }
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
+    var body: some Scene {
+        WindowGroup {
+            NavigationView {
+                if !userLoggedIn {
+                    LoginScreen()
+                        .environmentObject(mainViewRouter)
+                } else {
+                    PhotoEditorScreen()
+                }
+            }
+            .onOpenURL { url in
+                GIDSignIn.sharedInstance.handle(url)
+            }
+            .onAppear{
+                let _ = Auth.auth().addStateDidChangeListener{ auth, user in
+                    if (user != nil) {
+                        mainViewRouter.isUserLoggedInPublisher.send(true)
+                    } else {
+                        mainViewRouter.isUserLoggedInPublisher.send(false)
+                    }
+                }
+                mainViewRouter.isUserLoggedInPublisher
+                    .sink { isLoggedIn in
+                        userLoggedIn = isLoggedIn
+                    }
+                    .store(in: &cancellables)
+            }
+        }
     }
-  }
 }

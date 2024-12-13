@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-import GoogleSignInSwift
-import GoogleSignIn
-import Firebase
+import Combine
 
 struct LoginScreen {
     @State private var isLoading: Bool = false
@@ -16,8 +14,28 @@ struct LoginScreen {
     @State private var password: String = ""
     @State private var isShowPassword: Bool = false
     @State private var isShowAlert: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var isShowResetPassword: Bool = false
+    @State private var cancellables = Set<AnyCancellable>()
 
-    private var logInViewModel: LogInViewModel = LogInViewModel()
+    @ObservedObject private var logInViewModel: LoginViewModel = LoginViewModel()
+    @EnvironmentObject private var mainRoute: MainViewRouter
+
+    private func configurePublishers() {
+        logInViewModel.errorPublisher
+            .sink { error in
+                guard let error = error else { return }
+                errorMessage = error.description
+                isShowAlert = true
+            }
+            .store(in: &cancellables)
+
+        logInViewModel.isLoggedInPublisher
+            .sink { isLoggedIn in
+                mainRoute.isUserLoggedInPublisher.send(isLoggedIn)
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension LoginScreen: View {
@@ -37,16 +55,22 @@ extension LoginScreen: View {
         }
         .withLoaderOverView(isLoading: isLoading)
         .alert(isPresented: $isShowAlert) {
-            Alert(title: Text("Error"), message: Text("Unexpected error"))
+            Alert(title: Text("Error"), message: Text(errorMessage))
+        }
+        .sheet(isPresented: $isShowResetPassword, content: {
+            ResetPasswordView(logInViewModel: logInViewModel)
+        })
+        .onAppear {
+            configurePublishers()
         }
     }
 
-    private var inputTextFields: some View {
+    @ViewBuilder private var inputTextFields: some View {
         VStack(spacing: 20) {
-            CustomTextField(text: $mail, prompt: "Mail")
+            CapsuleTextField(text: $mail, prompt: "Mail")
+
             HStack {
-                // TODO: Fix resizing
-                CustomTextField(text: $password, prompt: "Password", isSecure: !isShowPassword)
+                CapsuleTextField(text: $password, prompt: "Password", isSecure: !isShowPassword)
                 Button {
                     isShowPassword.toggle()
                 } label: {
@@ -57,10 +81,12 @@ extension LoginScreen: View {
         .padding(.top, 50)
     }
 
-    private var socialLoginButton: some View {
+    @ViewBuilder private var socialLoginButton: some View {
         Button {
             Task {
+                isLoading = true
                 await logInViewModel.signInWithGoogle()
+                isLoading = false
             }
         } label: {
             Image("Google")
@@ -74,7 +100,7 @@ extension LoginScreen: View {
         .padding()
     }
 
-    private var signUpButton: some View {
+    @ViewBuilder private var signUpButton: some View {
         HStack {
             Text("Don't have an account?")
             NavigationLink("Sign Up") {
@@ -83,17 +109,20 @@ extension LoginScreen: View {
         }
     }
 
-    private var logInButton: some View {
-        CustomButton(text: "Log In") {
+    @ViewBuilder private var logInButton: some View {
+        CapsuleButton(text: "Log In") {
             Task {
-                let _ = await logInViewModel.sigIn(email: mail, password: password)
+                isLoading = true
+                await logInViewModel.sigIn(email: mail, password: password)
+                isLoading = false
             }
         }
+        .padding(.vertical)
     }
 
-    private var forgotPasswordButton: some View {
+    @ViewBuilder private var forgotPasswordButton: some View {
         Button {
-            // TODO: Implement
+            isShowResetPassword.toggle()
         } label: {
             Text("Forgot password")
         }
