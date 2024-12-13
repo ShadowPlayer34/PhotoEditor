@@ -21,6 +21,7 @@ extension LoaderOverViewModifier: ViewModifier {
             content
             if isLoading {
                 ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .progressViewStyle(.circular)
             }
         }
