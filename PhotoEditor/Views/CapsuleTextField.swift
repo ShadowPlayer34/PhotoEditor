@@ -1,5 +1,5 @@
 //
-//  CustomTextField.swift
+//  CapsuleTextField.swift
 //  PhotoEditor
 //
 //  Created by Andrew Hudik on 11/12/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// Custom text field.
+/// Capsule shaped text field.
 struct CapsuleTextField {
 
     /// Text field text.
@@ -19,6 +19,7 @@ struct CapsuleTextField {
     /// Prompt that shows in the text field.
     var prompt: String = "Enter smth"
 
+    /// Defines if the text field is secure.
     var isSecure: Bool = false
 }
 
@@ -32,6 +33,8 @@ extension CapsuleTextField: View {
                     borderWidth: 1,
                     borderColor: .primary
                 )
+                .autocorrectionDisabled(true)
+                .textInputAutocapitalization(.never)
         } else {
             SecureField(prompt, text: $text)
                 .capsuleStyle(
@@ -40,6 +43,8 @@ extension CapsuleTextField: View {
                     borderWidth: 1,
                     borderColor: .primary
                 )
+                .autocorrectionDisabled(true)
+                .textInputAutocapitalization(.never)
         }
     }
 }

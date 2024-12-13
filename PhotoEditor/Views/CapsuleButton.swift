@@ -1,5 +1,5 @@
 //
-//  CustomButton.swift
+//  CapsuleButton.swift
 //  PhotoEditor
 //
 //  Created by Andrew Hudik on 12/12/24.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-/// Custom button.
+/// Capsule shaped button.
 struct CapsuleButton {
 
+    /// Button text.
     var text: String
 
     /// Button background color.
@@ -28,7 +29,6 @@ extension CapsuleButton: View {
             Text(text)
                 .foregroundStyle(foregroundColor)
                 .frame(maxWidth: .infinity)
-                .padding()
         }
         .capsuleStyle(
             backgroundColor: .blue,
