@@ -11,15 +11,30 @@
 		02B65BED2D09A248005E1BE6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 02B65BEC2D09A248005E1BE6 /* FirebaseCore */; };
 		02B65BEF2D09A248005E1BE6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 02B65BEE2D09A248005E1BE6 /* FirebaseCrashlytics */; };
 		02B65BF12D09A248005E1BE6 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 02B65BF02D09A248005E1BE6 /* FirebaseDatabase */; };
+		02B65C1B2D09B4D4005E1BE6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 02B65C1A2D09B4D4005E1BE6 /* GoogleSignIn */; };
+		02B65C1D2D09B4D4005E1BE6 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02B65C1C2D09B4D4005E1BE6 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02B65BD22D099F43005E1BE6 /* PhotoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		02B65C2B2D0B0110005E1BE6 /* Exceptions for "PhotoEditor" folder in "PhotoEditor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Configuration/Info.plist,
+			);
+			target = 02B65BD12D099F43005E1BE6 /* PhotoEditor */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		02B65BD42D099F43005E1BE6 /* PhotoEditor */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				02B65C2B2D0B0110005E1BE6 /* Exceptions for "PhotoEditor" folder in "PhotoEditor" target */,
+			);
 			path = PhotoEditor;
 			sourceTree = "<group>";
 		};
@@ -30,8 +45,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02B65C1B2D09B4D4005E1BE6 /* GoogleSignIn in Frameworks */,
 				02B65BEF2D09A248005E1BE6 /* FirebaseCrashlytics in Frameworks */,
 				02B65BED2D09A248005E1BE6 /* FirebaseCore in Frameworks */,
+				02B65C1D2D09B4D4005E1BE6 /* GoogleSignInSwift in Frameworks */,
 				02B65BF12D09A248005E1BE6 /* FirebaseDatabase in Frameworks */,
 				02B65BEB2D09A248005E1BE6 /* FirebaseAuth in Frameworks */,
 			);
@@ -80,6 +97,8 @@
 				02B65BEC2D09A248005E1BE6 /* FirebaseCore */,
 				02B65BEE2D09A248005E1BE6 /* FirebaseCrashlytics */,
 				02B65BF02D09A248005E1BE6 /* FirebaseDatabase */,
+				02B65C1A2D09B4D4005E1BE6 /* GoogleSignIn */,
+				02B65C1C2D09B4D4005E1BE6 /* GoogleSignInSwift */,
 			);
 			productName = PhotoEditor;
 			productReference = 02B65BD22D099F43005E1BE6 /* PhotoEditor.app */;
@@ -111,6 +130,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				02B65BE92D09A248005E1BE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				02B65C192D09B4D4005E1BE6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 02B65BD32D099F43005E1BE6 /* Products */;
@@ -274,6 +294,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				GOOGLESERVICE_PATH = "PhotoEditor/Configuration/GoogleService-Info";
+				INFOPLIST_FILE = PhotoEditor/Configuration/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs access for camera to capture image";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access for photo library to select image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -305,6 +328,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				GOOGLESERVICE_PATH = "PhotoEditor/Configuration/GoogleService-Info";
+				INFOPLIST_FILE = PhotoEditor/Configuration/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs access for camera to capture image";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access for photo library to select image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -356,6 +382,14 @@
 				minimumVersion = 11.6.0;
 			};
 		};
+		02B65C192D09B4D4005E1BE6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -378,6 +412,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 02B65BE92D09A248005E1BE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabase;
+		};
+		02B65C1A2D09B4D4005E1BE6 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02B65C192D09B4D4005E1BE6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		02B65C1C2D09B4D4005E1BE6 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02B65C192D09B4D4005E1BE6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
